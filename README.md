@@ -14,4 +14,4 @@
 - Search, sort, drag, and drop album list
 - Dark/Light theme
 - Offline support
-- Detail screen with grids and responsive layout (for landscape and portrait modes)
+- Detail screen and responsive layout (for landscape and portrait modes)
