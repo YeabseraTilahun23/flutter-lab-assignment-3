@@ -5,8 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'app/router.dart';
 import 'app/theme.dart';
 import 'presentation/blocs/album_bloc/album_bloc.dart';
-
-
+import 'presentation/blocs/album_bloc/album_event.dart'; 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +14,7 @@ void main() async {
 }
 
 class AlbumApp extends StatefulWidget {
-  const AlbumApp({super.key});
+  const AlbumApp({Key? key}) : super(key: key);
 
   @override
   State<AlbumApp> createState() => _AlbumAppState();
@@ -33,7 +32,7 @@ class _AlbumAppState extends State<AlbumApp> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AlbumBloc()..add(LoadAlbumsEvent()),
+      create: (_) => AlbumBloc()..add(const LoadAlbumsEvent()),
       child: MaterialApp.router(
         title: 'Premium Albums',
         theme: premiumLightTheme,

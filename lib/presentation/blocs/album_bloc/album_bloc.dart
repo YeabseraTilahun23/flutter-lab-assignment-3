@@ -22,11 +22,13 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
       final photos = await repository.getPhotos();
       emit(AlbumLoaded(albums: albums, photos: photos));
     } catch (e) {
-      emit(AlbumError('Failed to fetch albums'));
+
+      emit(AlbumError('Failed to fetch albums: ${e.toString()}'));
     }
   }
 
   Future<void> _onRefreshAlbums(RefreshAlbumsEvent event, Emitter<AlbumState> emit) async {
+   
     add(LoadAlbumsEvent());
   }
 }

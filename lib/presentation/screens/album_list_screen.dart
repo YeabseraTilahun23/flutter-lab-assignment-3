@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -25,7 +24,6 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
   List<Photo> _photos = [];
   String _searchQuery = '';
   String _sortOption = 'title';
-  ThemeMode _themeMode = ThemeMode.system;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +66,17 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
                       scrollController: ScrollController(),
                       onReorder: _onReorder,
                       children: _albums.map((album) {
-                        final photo = _photos.firstWhere((p) => p.albumId == album.id, orElse: () => _photos.first);
+                        // Ensure safe selection of a photo even if none match this album.
+                        Photo photo;
+                        if (_photos.isEmpty) {
+                          photo = Photo(
+                              id: 0, albumId: album.id, title: 'No Photo', url: '', thumbnailUrl: '');
+                        } else {
+                          photo = _photos.firstWhere(
+                            (p) => p.albumId == album.id,
+                            orElse: () => _photos.first,
+                          );
+                        }
                         return AlbumCard(
                           key: ValueKey(album.id),
                           album: album,
@@ -96,7 +104,9 @@ class _AlbumListScreenState extends State<AlbumListScreen> {
   }
 
   List<Album> _applySortAndSearch(List<Album> original) {
-    var filtered = original.where((a) => a.title.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+    var filtered = original
+        .where((a) => a.title.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .toList();
     if (_sortOption == 'title') {
       filtered.sort((a, b) => a.title.compareTo(b.title));
     } else {

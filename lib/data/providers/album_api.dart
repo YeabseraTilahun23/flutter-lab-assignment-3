@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'album/lib/data/models/album.dart';
-import 'album/lib/data/models/photo.dart';
+import '../models/album.dart';
+import '../models/photo.dart';
+import '../../core/utils/network_checker.dart';
 
 class AlbumApiProvider {
   final http.Client client;
@@ -9,6 +10,11 @@ class AlbumApiProvider {
   AlbumApiProvider({required this.client});
 
   Future<List<Album>> fetchAlbums() async {
+    final networkChecker = NetworkChecker();
+    if (!await networkChecker.isConnected) {
+      throw Exception('No internet connection');
+    }
+
     final response = await client.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
 
     if (response.statusCode == 200) {
@@ -20,6 +26,11 @@ class AlbumApiProvider {
   }
 
   Future<List<Photo>> fetchPhotos() async {
+    final networkChecker = NetworkChecker();
+    if (!await networkChecker.isConnected) {
+      throw Exception('No internet connection');
+    }
+
     final response = await client.get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
 
     if (response.statusCode == 200) {
