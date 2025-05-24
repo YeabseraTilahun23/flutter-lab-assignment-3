@@ -10,6 +10,7 @@ import 'presentation/blocs/album_bloc/album_event.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  await Hive.openBox('albumsBox');
   runApp(const AlbumApp());
 }
 

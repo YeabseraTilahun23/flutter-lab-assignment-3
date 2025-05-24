@@ -17,7 +17,7 @@ class AlbumDetailScreen extends StatelessWidget {
       body: BlocBuilder<AlbumBloc, AlbumState>(
         builder: (context, state) {
           if (state is AlbumLoaded) {
-            final album = state.albums.firstWhere((a) => a.id == albumId);
+            final album = state.albums.firstWhere((a) => a.id == albumId, orElse: () => Album(id: albumId, title: "Unknown Album"));
             final photos = state.photos.where((p) => p.albumId == albumId).toList();
 
             return Padding(
